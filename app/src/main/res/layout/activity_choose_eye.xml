@@ -1,0 +1,189 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/dactvbg"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/dactvbg"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:paddingLeft="10dp"
+            android:text="@string/choose_which_eyes_to_be_tested"
+            android:textColor="@android:color/holo_green_light"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/leftEyeImage"
+                android:layout_width="151dp"
+                android:layout_height="170dp"
+                android:layout_gravity="center"
+                android:layout_weight="39.49"
+                android:padding="10dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/left" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="55"
+                android:paddingLeft="10dp"
+                android:text="@string/only_test_my_left_eye"
+                android:textColor="#FFFFFF"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <android.support.v7.widget.AppCompatCheckBox
+                android:id="@+id/leftEyeCheck"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:scaleX="3"
+                android:scaleY="3"
+                android:buttonTint="#559934"
+                android:layout_gravity="center"
+                android:layout_weight="5" />
+        </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:id="@+id/rightEyeImage"
+            android:layout_width="wrap_content"
+            android:layout_height="170dp"
+            android:layout_gravity="center"
+            android:layout_weight="39.77"
+            android:padding="10dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/right" />
+
+        <TextView
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="55"
+            android:paddingLeft="10dp"
+            android:text="@string/only_test_my_right_eye"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <android.support.v7.widget.AppCompatCheckBox
+            android:id="@+id/rightEyeCheck"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:scaleX="3"
+            android:scaleY="3"
+            android:buttonTint="#559934"
+            android:layout_gravity="center"
+            android:layout_weight="5" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:id="@+id/bothEyeImage"
+            android:layout_width="194dp"
+            android:layout_height="170dp"
+            android:layout_gravity="center"
+            android:layout_weight="39.77"
+            android:padding="10dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/botheyes" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="55"
+            android:paddingLeft="10dp"
+            android:text="I Need to Test My Both Eyes"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <android.support.v7.widget.AppCompatCheckBox
+            android:id="@+id/bothEyeCheck"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:scaleX="3"
+            android:scaleY="3"
+            android:buttonTint="#559934"
+            android:layout_gravity="center"
+            android:layout_weight="5" />
+    </LinearLayout>
+
+
+
+
+
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0"
+        android:orientation="horizontal" >
+
+
+        <Button
+            android:id="@+id/proceedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Proceed" />
+
+
+
+
+
+
+    </LinearLayout>
+
+    </LinearLayout>
+
+
+</LinearLayout>
+
+
+
+
+
+
+
+
+
+
+

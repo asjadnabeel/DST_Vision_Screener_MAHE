@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.manipal.dst_amsler">
+
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera.autofocus"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera.front"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera.front.autofocus"
+        android:required="false" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".Mrda_MainScreen"
+            android:screenOrientation="landscape">
+
+            <!--
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            -->
+        </activity>
+        <activity android:name=".Mrda_Stimuli_Canvas" />
+        <activity android:name=".Mrda_StimuliResultsActivity" />
+        <activity
+            android:name=".Mrda_StimuliTabbedResults"
+            android:label="@string/title_activity_stimuli_tabbed_results"
+            android:parentActivityName=".Mrda_MainScreen"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.manipal.dst_amsler.Mrda_MainScreen" />
+        </activity>
+        <activity
+            android:name=".Mrda_Results"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".Root_LoginActivity"
+            android:label="@string/title_activity_login"
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
+            android:name=".Root_Welcome"
+            android:label="DigitalAmsler"
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".Ams_Instruction"
+            android:label="@string/title_activity_instr"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
+            android:name=".Root_ChooseEye"
+            android:label="@string/title_activity_choose_eye"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
+        <activity
+            android:name=".Ams_StaticAmsler"
+            android:label="@string/title_activity_amsler_static"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
+        <activity
+            android:name=".Ams_DefectList"
+            android:label="@string/title_activity_defect_list"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
+            android:name=".Ams_DrawingActivity"
+            android:label="@string/title_activity_drawing_main"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
+        <activity
+            android:name=".Root_FaceCalibration"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".Root_ChangeOrientation"
+            android:label="@string/title_activity_change_orientation"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".VO_MainActivity" />
+        <activity android:name=".VO_StimuliSize" />
+        <activity android:name=".VO_StimuliCanvas" />
+        <activity
+            android:name=".Root_Finished"
+            android:label="@string/title_activity_root__finished"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+    </application>
+
+</manifest>
