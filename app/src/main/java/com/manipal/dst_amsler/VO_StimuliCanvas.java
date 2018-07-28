@@ -242,7 +242,7 @@ public class VO_StimuliCanvas extends AppCompatActivity
                         //wrong
                         num_wrong++;
                     }
-                    Toast.makeText(VO_StimuliCanvas.this , " img view 1 " , Toast.LENGTH_LONG).show();
+                   // Toast.makeText(VO_StimuliCanvas.this , " img view 1 " , Toast.LENGTH_LONG).show();
                     img1.setEnabled(false);
                     count--;
                     if (count == 0)
@@ -308,7 +308,7 @@ public class VO_StimuliCanvas extends AppCompatActivity
                         //wrong
                         num_wrong++;
                     }
-                    Toast.makeText(VO_StimuliCanvas.this , " img view 2 " , Toast.LENGTH_LONG).show();
+                   // Toast.makeText(VO_StimuliCanvas.this , " img view 2 " , Toast.LENGTH_LONG).show();
                     img2.setEnabled(false);
                     count--;
                     if (count == 0)
@@ -371,7 +371,7 @@ public class VO_StimuliCanvas extends AppCompatActivity
                         //wrong
                         num_wrong++;
                     }
-                    Toast.makeText(VO_StimuliCanvas.this , " img view 3 " , Toast.LENGTH_LONG).show();
+                   // Toast.makeText(VO_StimuliCanvas.this , " img view 3 " , Toast.LENGTH_LONG).show();
                     img3.setEnabled(false);
                     count--;
                     if (count == 0)
@@ -433,7 +433,7 @@ public class VO_StimuliCanvas extends AppCompatActivity
                         //wrong
                         num_wrong++;
                     }
-                    Toast.makeText(VO_StimuliCanvas.this , " img view 4 " , Toast.LENGTH_LONG).show();
+                    //Toast.makeText(VO_StimuliCanvas.this , " img view 4 " , Toast.LENGTH_LONG).show();
                     img4.setEnabled(false);
                     count--;
                     if (count == 0)
@@ -495,7 +495,7 @@ public class VO_StimuliCanvas extends AppCompatActivity
                         //wrong
                         num_wrong++;
                     }
-                    Toast.makeText(VO_StimuliCanvas.this , " img view 5 " , Toast.LENGTH_LONG).show();
+                    //Toast.makeText(VO_StimuliCanvas.this , " img view 5 " , Toast.LENGTH_LONG).show();
                     img5.setEnabled(false);
                     count--;
                     if (count == 0)
@@ -612,7 +612,16 @@ public class VO_StimuliCanvas extends AppCompatActivity
         tv2.setGravity(Gravity.CENTER);
         tv2.setVisibility(View.VISIBLE);
 
+
+        double input = result;  //For example
+
+        long roundedInt = Math.round(input * 100);
+        double result = (double) roundedInt/100;
+
         sp =  getApplicationContext().getSharedPreferences("Login", 0);
+
+
+
 
         SharedPreferences.Editor Ed = sp.edit();
         Ed.putString("VO_RESULT", String.valueOf(result));

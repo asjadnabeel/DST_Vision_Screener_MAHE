@@ -3,11 +3,14 @@ package com.manipal.dst_amsler;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
+import java.util.Locale;
 
 
 public class Mrda_MainScreen extends AppCompatActivity {
@@ -18,6 +21,7 @@ public class Mrda_MainScreen extends AppCompatActivity {
      */
     private int stimuliRounds = 20;
     private int sequentialErrors = 0;
+    TextToSpeech tts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +33,29 @@ public class Mrda_MainScreen extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
         setContentView(R.layout.activity_main_screen);
+
+        tts=new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+
+            @Override
+            public void onInit(int status) {
+                // TODO Auto-generated method stub
+                if(status == TextToSpeech.SUCCESS){
+                    int result=tts.setLanguage(Locale.US);
+                    tts.setSpeechRate(0.4f);
+                    if(result==TextToSpeech.LANG_MISSING_DATA ||
+                            result==TextToSpeech.LANG_NOT_SUPPORTED){
+                        Log.e("error", "This Language is not supported");
+                    }
+                    else{
+                        ConvertTextToSpeech();
+                    }
+                }
+                else
+                    Log.e("error", "Initilization Failed!");
+            }
+        });
+
+
 
         findViewById(R.id.btnStart).setOnClickListener(new View.OnClickListener() {
 
@@ -80,5 +107,9 @@ public class Mrda_MainScreen extends AppCompatActivity {
                 dialog.show();
             }
         });*/
+    }
+
+    private void ConvertTextToSpeech(){
+        tts.speak("        Kindly Listen carefully     You need to Touch on distorted target on the screen                                Press Start if ready ", TextToSpeech.QUEUE_FLUSH, null);
     }
 }

@@ -1,12 +1,16 @@
 package com.manipal.dst_amsler;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -36,6 +40,8 @@ public class Root_LoginActivity extends AppCompatActivity {
     private Session session;
     SharedPreferences sp;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,14 +51,19 @@ public class Root_LoginActivity extends AppCompatActivity {
         session = new Session(this);
         Ed_uid  = (EditText) findViewById(R.id.Ed_User_id);
         Ed_pwd  = (EditText) findViewById(R.id.Ed_User_pwd);
+
+        Ed_pwd.setImeOptions(EditorInfo.IME_ACTION_DONE);
+
         sp=getSharedPreferences("Login", 0);
 
 
-        if(sp.contains("TOKEN") && sp.contains("PATIENT_ID") ){
+        //remember password
+
+        /*if(sp.contains("TOKEN") && sp.contains("PATIENT_ID") ){
             Intent intent = new Intent(getApplicationContext(), Root_FaceCalibration.class);
             //intent.putExtra("USER_ID", Ed_uid.getText().toString());
             startActivity(intent);
-        }
+        }*/
 
 
 
@@ -67,25 +78,31 @@ public class Root_LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
 
-
+                if (haveNetworkConnection() == true) {
 
                     String uname = Ed_uid.getText().toString();
                     String pswd = Ed_pwd.getText().toString();
-                    if(uname != "" && pswd != "") {
+                    if (uname != "" && pswd != "") {
 
-                        Toast.makeText(getApplicationContext(), "Please Wait ..Logging In" ,
+                        Toast.makeText(getApplicationContext(), "Please Wait ..Logging In",
                                 Toast.LENGTH_LONG).show();
-                        sendJson(uname,pswd);
+                        sendJson(uname, pswd);
 
                         /*Intent intent = new Intent(getApplicationContext(), Root_FaceCalibration.class);
                         //intent.putExtra("USER_ID", Ed_uid.getText().toString());
                         startActivity(intent);*/
 
-                    }else {
-                        Toast.makeText(getApplicationContext(), "Kindly Enter Username and Password" ,
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Kindly Enter Username and Password",
                                 Toast.LENGTH_LONG).show();
 
                     }
+
+                }else
+                {
+                    Toast.makeText(getApplicationContext(), "Internet is not available",
+                            Toast.LENGTH_LONG).show();
+                }
 
 
 
@@ -203,7 +220,7 @@ public class Root_LoginActivity extends AppCompatActivity {
                     if(token!=null) {
 
 
-                        Intent intent = new Intent(getApplicationContext(), Root_FaceCalibration.class);
+                        Intent intent = new Intent(getApplicationContext(), Root_ChooseEye.class);
                         //intent.putExtra("USER_ID", Ed_uid.getText().toString());
                         startActivity(intent);
                     }
@@ -296,6 +313,27 @@ public class Root_LoginActivity extends AppCompatActivity {
         else{
             return 0;
         }
+    }
+
+
+
+
+    private boolean haveNetworkConnection() {
+
+        boolean haveConnectedWifi = false;
+        boolean haveConnectedMobile = false;
+        ConnectivityManager cm;
+        cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo[] netInfo = cm.getAllNetworkInfo();
+        for (NetworkInfo ni : netInfo) {
+            if (ni.getTypeName().equalsIgnoreCase("WIFI"))
+                if (ni.isConnected())
+                    haveConnectedWifi = true;
+            if (ni.getTypeName().equalsIgnoreCase("MOBILE"))
+                if (ni.isConnected())
+                    haveConnectedMobile = true;
+        }
+        return haveConnectedWifi || haveConnectedMobile;
     }
 
 }

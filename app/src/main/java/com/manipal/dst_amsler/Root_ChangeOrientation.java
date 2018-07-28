@@ -1,5 +1,7 @@
 package com.manipal.dst_amsler;
 
+import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -18,14 +20,19 @@ public class Root_ChangeOrientation extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+
+    }
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        // Checks the orientation of the screen
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            Intent inten = new Intent(getApplicationContext(), Ams_Instruction.class);
+            //intent.putExtra("USER_ID", Ed_uid.getText().toString());
+            startActivity(inten);
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
+
+        }
     }
 
 }

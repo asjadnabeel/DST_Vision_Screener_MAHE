@@ -24,7 +24,7 @@ public class VO_MainActivity extends AppCompatActivity
     int v1_margin;
 
     private Button btnStart;
-    private Button btnExit;
+    //private Button btnExit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -43,7 +43,7 @@ public class VO_MainActivity extends AppCompatActivity
         v1_margin = (screenHeight)/2;
 
         btnStart = new Button(this);
-        btnExit = new Button(this);
+        //btnExit = new Button(this);
 
         //parent relative layout
         final RelativeLayout relativeLayout = new RelativeLayout(this);
@@ -62,15 +62,17 @@ public class VO_MainActivity extends AppCompatActivity
         btnStart.setLayoutParams(button_params01);
         btnStart.setText("START");
         btnStart.setAlpha(0.75f);
-        LinearLayout.LayoutParams button_params02 = new LinearLayout.LayoutParams(button_width,ViewGroup.LayoutParams.WRAP_CONTENT);
+
+        /*LinearLayout.LayoutParams button_params02 = new LinearLayout.LayoutParams(button_width,ViewGroup.LayoutParams.WRAP_CONTENT);
         btnExit.setLayoutParams(button_params02);
         btnExit.setText("EXIT");
-        btnExit.setAlpha(0.75f);
+        btnExit.setAlpha(0.75f);*/
 
         band.addView(btnStart);
-        band.addView(btnExit);
+        //band.addView(btnExit);
         relativeLayout.addView(band);
         this.setContentView(relativeLayout);
+
 
         //"Start" button
         btnStart.setOnClickListener(new View.OnClickListener() {
@@ -82,11 +84,11 @@ public class VO_MainActivity extends AppCompatActivity
         });
 
         //"Exit" button
-        btnExit.setOnClickListener(new View.OnClickListener() {
+       /*btnExit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
                 System.exit(0);
             }
-        });
+        });*/
     }
 }

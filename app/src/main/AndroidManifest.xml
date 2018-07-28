@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.manipal.dst_amsler">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
@@ -31,29 +32,23 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity
             android:name=".Mrda_MainScreen"
             android:screenOrientation="landscape">
-
-            <!--
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-            -->
         </activity>
+
+
         <activity android:name=".Mrda_Stimuli_Canvas" />
         <activity android:name=".Mrda_StimuliResultsActivity" />
+
         <activity
             android:name=".Mrda_StimuliTabbedResults"
             android:label="@string/title_activity_stimuli_tabbed_results"
-            android:parentActivityName=".Mrda_MainScreen"
+
             android:screenOrientation="landscape"
             android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.manipal.dst_amsler.Mrda_MainScreen" />
+
         </activity>
         <activity
             android:name=".Mrda_Results"
@@ -77,12 +72,13 @@
         <activity
             android:name=".Ams_Instruction"
             android:label="@string/title_activity_instr"
+            android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
             android:name=".Root_ChooseEye"
             android:label="@string/title_activity_choose_eye"
-            android:screenOrientation="portrait"
+            android:screenOrientation="landscape"
             android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
         <activity
             android:name=".Ams_StaticAmsler"
@@ -110,9 +106,14 @@
         <activity android:name=".VO_StimuliSize" />
         <activity android:name=".VO_StimuliCanvas" />
         <activity
-            android:name=".Root_Finished"
-            android:label="@string/title_activity_root__finished"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:name=".VO_main_scr"
+            android:label="@string/title_activity_vo_main_scr"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".Root_Results"
+            android:screenOrientation="portrait"
+            android:label="@string/title_activity_root__results"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar" ></activity>
     </application>
 
 </manifest>

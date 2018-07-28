@@ -51,6 +51,13 @@ public class Mrda_Results extends AppCompatActivity {
         Bundle bundle = intent.getExtras();
 
         sp =  getApplicationContext().getSharedPreferences("Login", 0);
+        SharedPreferences.Editor Ed = sp.edit();
+
+        Ed.putString("MRDA_RESULT", "0");
+
+        Ed.commit();
+
+
 
 
         btn_amsler = (Button) findViewById(R.id.btn_amslerTrig);
@@ -60,12 +67,9 @@ public class Mrda_Results extends AppCompatActivity {
             public void onClick(View v) {
 
 
-                SharedPreferences.Editor Ed = sp.edit();
-                Ed.putString("MRDA_RESULT", "0");
 
-                Ed.commit();
 
-                Intent intent = new Intent(getApplicationContext(), VO_MainActivity.class);
+                Intent intent = new Intent(getApplicationContext(), VO_main_scr.class);
                 //intent.putExtra("USER_ID", Ed_uid.getText().toString());
                 startActivity(intent);
 
@@ -119,6 +123,10 @@ public class Mrda_Results extends AppCompatActivity {
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT));
         builder.show();*/
+
+        Intent inten = new Intent(getApplicationContext(), VO_main_scr.class);
+        //intent.putExtra("USER_ID", Ed_uid.getText().toString());
+        startActivity(inten);
 
     }
 

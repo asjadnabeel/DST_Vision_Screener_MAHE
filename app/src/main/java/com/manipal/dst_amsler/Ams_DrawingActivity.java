@@ -75,18 +75,19 @@ public class Ams_DrawingActivity extends AppCompatActivity {
     int areaList_1,areaList_2,areaList_3,areaList_4,areaList_5;
 
     TextView zoneInfo;
-    int defect,defect1 , defect2, defect3, defect4;
+    int defect,defect1 , defect2, defect3, defect4 , def1_score,def2_score,def3_score,def4_score;
     Boolean def1_status,def2_status,def3_status,def4_status;
     int score =0;
     private LinearLayout.LayoutParams params,params2;
     private RelativeLayout.LayoutParams rel_params;
     static int total_score;
     private Paint mPaint;
-    int ams_score,person_id;
+    int person_id,next_defect;
     String date;
     File imagelink;
     String im_name;
-    int u_id,scoreSum,x_area_old,y_area_old;
+    int u_id,x_area_old,y_area_old;
+    int ams_score,scoreSum;
     String u_username,u_password,token,patient_id,mrda_result,vo_result;
 
     SharedPreferences sp1;
@@ -123,6 +124,7 @@ public class Ams_DrawingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         total_score = 0 ;
+
         x_area_old=999;
         y_area_old=999;
 
@@ -293,11 +295,14 @@ public class Ams_DrawingActivity extends AppCompatActivity {
 
         submitButton.setLayoutParams(params);
         submitButton.setGravity(Gravity.CENTER);
+        submitButton.setTextSize(20);
+        submitButton.setHeight(20);
         layout.addView(submitButton);
 
         resetButton.setLayoutParams(params);
         resetButton.setGravity(Gravity.CENTER);
-        layout.addView(resetButton);
+        //layout.addView(resetButton);
+        resetButton.setVisibility(GONE);
 
         AgainButton.setLayoutParams(params);
         AgainButton.setGravity(Gravity.CENTER);
@@ -328,19 +333,24 @@ public class Ams_DrawingActivity extends AppCompatActivity {
 
 
         setContentView(layout);
-
+        ams_score = 0;
+        scoreSum = 0;
 
         defect1 = getIntent().getIntExtra("defect1", 0);
         defect2 = getIntent().getIntExtra("defect2", 0);
         defect3 = getIntent().getIntExtra("defect3", 0);
         defect4 = getIntent().getIntExtra("defect4", 0);
-        defect = defect1+defect2+defect3+defect4;
+        next_defect = defect1+defect2+ defect3 + defect4;
 
 
         def1_status =false;
         def2_status =false;
         def3_status =false;
         def4_status =false;
+        def1_score = 0;
+        def2_score = 0;
+        def3_score = 0;
+        def4_score = 0;
 
         if(defect1 == 1 )
             def1_status = true;
@@ -358,6 +368,7 @@ public class Ams_DrawingActivity extends AppCompatActivity {
             showDefectPopup(R.drawable.blurryreq);
             mPaint.setColor(Color.RED);
             def1_status = false;
+            defect = defect1;
 
 
         }else if (def2_status == true)
@@ -365,12 +376,14 @@ public class Ams_DrawingActivity extends AppCompatActivity {
             showDefectPopup(R.drawable.wavinessreq);
             mPaint.setColor(Color.GREEN);
             def2_status =false;
+            defect = defect2;
 
         }else if(def3_status == true)
         {
             showDefectPopup(R.drawable.fadedreq);
             mPaint.setColor(Color.BLUE);
             def3_status =false;
+            defect = defect3;
 
         }
         else if (def4_status == true)
@@ -378,11 +391,12 @@ public class Ams_DrawingActivity extends AppCompatActivity {
             showDefectPopup(R.drawable.darkspotreq);
             mPaint.setColor(Color.YELLOW);
             def4_status = false;
+            defect = defect4;
 
         }
         else
         {
-
+        defect =0;
         }
 
 
@@ -484,29 +498,73 @@ public class Ams_DrawingActivity extends AppCompatActivity {
             public void onClick(View v) {
 
 
+                // To Get seperate defect scores for blurry/wavy/faded/darkspot
+                if(defect == 1){
+                    def1_score =scoreSum;
+                }
+                else if(defect ==2) {
+                    def2_score = scoreSum;
+                }
+                else if(defect == 3) {
+                    def3_score =scoreSum;
+                }
+                else if(defect ==4){
+                    def4_score =scoreSum;
+                }
+
+
+
+
+
+
                 if (def1_status == true) {
                     showDefectPopup(R.drawable.blurryreq);
                     mPaint.setColor(Color.RED);
                     def1_status = false;
+                    ams_score = ams_score + scoreSum;
+                    defect = defect1;
+                    scoreSum=0;
+
 
 
                 } else if (def2_status == true) {
                     showDefectPopup(R.drawable.wavinessreq);
                     mPaint.setColor(Color.GREEN);
                     def2_status = false;
+                    ams_score = ams_score + scoreSum;
+                    scoreSum=0;
+                    defect = defect2;
 
                 } else if (def3_status == true) {
                     showDefectPopup(R.drawable.fadedreq);
                     mPaint.setColor(Color.BLUE);
                     def3_status = false;
+                    ams_score = ams_score + scoreSum;
+                    scoreSum=0;
+                    defect = defect3;
 
                 } else if (def4_status == true) {
                     showDefectPopup(R.drawable.darkspotreq);
                     mPaint.setColor(Color.YELLOW);
                     def4_status = false;
+                    ams_score = ams_score + scoreSum;
+                    scoreSum=0;
+                    defect = defect4;
+
 
                 } else {
 
+                    ams_score = ams_score + scoreSum;
+
+
+
+
+
+                    SharedPreferences.Editor Ed = sp1.edit();
+
+                    Ed.putString("AMS_RESULT", Integer.toString(ams_score));
+
+                    Ed.commit();
 
                     // Add all the scores
                     hideButtons();
@@ -515,7 +573,10 @@ public class Ams_DrawingActivity extends AppCompatActivity {
                     //for (int i : scoreList) {
                     // finalScore += i;
                     //}
-                    ams_score = scoreSum;
+
+
+                    //ams_score = (scoreSum/1000)*100; //Normalization
+
                     scoreSum = 0;
                     // Get timestamp
                     // SimpleDateFormat s = new SimpleDateFormat("ddMMyyyyhhmmss");
@@ -539,6 +600,16 @@ public class Ams_DrawingActivity extends AppCompatActivity {
                         mv.setDrawingCacheEnabled(true);
 
                     Bitmap bitmap = mv.getDrawingCache();
+
+                    //Rotate Image 180 Degree
+
+                    Matrix matrix = new Matrix();
+                    matrix.postRotate(180);
+                    bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix,
+                            true);
+
+
+
 
                     File file = new File(dir + "/" + fileName + ".png");
                     try {
@@ -578,7 +649,10 @@ public class Ams_DrawingActivity extends AppCompatActivity {
                     //new SendPostMultiRequest().execute();
                    // sendToAPI();
                     //sendToOldAPI();
-                    showCompletePopup(R.drawable.testcompleted);
+
+
+
+                    //showCompletePopup(R.drawable.testcompleted);
                     try {
                         SendResultToAPI();
                     } catch (IOException e) {
@@ -586,7 +660,11 @@ public class Ams_DrawingActivity extends AppCompatActivity {
                     }
 
 
+
                 }
+
+
+
 
             }
 
@@ -596,6 +674,7 @@ public class Ams_DrawingActivity extends AppCompatActivity {
 
 
     }
+
 
 
     public void showDefectPopup(int resID) {
@@ -680,8 +759,8 @@ public class Ams_DrawingActivity extends AppCompatActivity {
     public void hideButtons(){
         submitButton.setVisibility(GONE);
         resetButton.setVisibility(GONE);
-        AgainButton.setVisibility(VISIBLE);
-        ExitButton.setVisibility(VISIBLE);
+        AgainButton.setVisibility(GONE);
+        ExitButton.setVisibility(GONE);
     }
 
 
@@ -853,31 +932,31 @@ public class Ams_DrawingActivity extends AppCompatActivity {
                     for (int i=0;i<zoneList.size();i++) {
                         if(zoneList.get(i)==1 && f1==1)
                         {
-                            sum += areaList_1*areaList_1*defect*zoneList.get(i);
+                            sum += areaList_1*defect*zoneList.get(i);
                             f1=0;
                             continue;
                         }
                         else if(zoneList.get(i)==2 && f2==1)
                         {
-                            sum += areaList_2*areaList_2*defect*zoneList.get(i);
+                            sum += areaList_2*defect*zoneList.get(i);
                             f2=0;
                             continue;
                         }
                         else if(zoneList.get(i)==3 && f3==1)
                         {
-                            sum += areaList_3*areaList_3*defect*zoneList.get(i);
+                            sum += areaList_3*defect*zoneList.get(i);
                             f3=0;
                             continue;
                         }
                         else if(zoneList.get(i)==4 && f4==1)
                         {
-                            sum += areaList_4*areaList_4*defect*zoneList.get(i);
+                            sum += areaList_4*defect*zoneList.get(i);
                             f4=0;
                             continue;
                         }
                         else if(zoneList.get(i)==5 && f5==1)
                         {
-                            sum += areaList_5*areaList_5*defect*zoneList.get(i);
+                            sum += areaList_5*defect*zoneList.get(i);
                             f5=0;
                             //zoneInfo.setText("Ar="+areaList_5.size()+" X def="+defect+ "X zone="+zoneList.get(i));
                             continue;
@@ -902,7 +981,9 @@ public class Ams_DrawingActivity extends AppCompatActivity {
                         scoreSum += i;
                     }
                     */
-                    //zoneInfo.setText("Current Score " + scoreSum );
+
+
+                    //zoneInfo.setText("ScoreSum " + scoreSum + "ams_score"+ams_score);
 
 
                     //zoneInfo.setText("Area 1=" + areaList_1+"--2="+areaList_2+"--3="+areaList_3+"--4="+areaList_4+"--5="+areaList_5 );
@@ -1256,11 +1337,12 @@ public class Ams_DrawingActivity extends AppCompatActivity {
         token = sp1.getString("TOKEN", null);
         patient_id = sp1.getString("PATIENT_ID", null);
 
-        mrda_result = sp1.getString("MRDA_RESULT", "0");
+        mrda_result = sp1.getString("MRDA_RESULT", "20");
 
          vo_result = sp1.getString("VO_RESULT", "0");
 
-
+        String ams_string = "Amsler \nBlurry:"+Integer.toString(def1_score)+"\nWavy"+Integer.toString(def2_score)+"\nFaded"+Integer.toString(def3_score)+"\nDarkSpot"+Integer.toString(def4_score);
+        Toast.makeText(Ams_DrawingActivity.this, "Amsler Score"+ams_string, Toast.LENGTH_LONG).show();
 
         String eye_selected = sp1.getString("EYE_SELECTED", "Right");
 
@@ -1287,16 +1369,20 @@ public class Ams_DrawingActivity extends AppCompatActivity {
 
                     .addFormDataPart("amsler_image", im_name, RequestBody.create(MEDIA_TYPE_PNG, imagelink))
                     .build();
-*/
+                    String.valueOf(mrda_result)
+*/          Toast.makeText(Ams_DrawingActivity.this, "Uploading to Server Please Wait", Toast.LENGTH_LONG).show();
+
+
             //OkHttpClient client = new OkHttpClient();
 
             RequestBody requestBody = new MultipartBody.Builder()
                     .setType(MultipartBody.FORM)
                     .addFormDataPart("patient", patient_id)
                     .addFormDataPart("date", date)
-                    .addFormDataPart("amsler_score", String.valueOf(ams_score))
-                    .addFormDataPart("MRDA_Score", String.valueOf(mrda_result))
+                    .addFormDataPart("amsler_score",Integer.toString(ams_score) )
+                    .addFormDataPart("MRDA_Score",String.valueOf(mrda_result) )
                     .addFormDataPart("vanishing_optotype_score", String.valueOf(vo_result))
+                    .addFormDataPart("remarks",ams_string)
                     .addFormDataPart("amsler_image", im_name, RequestBody.create(MEDIA_TYPE_PNG, imagelink))
                     .build();
 
@@ -1314,9 +1400,13 @@ public class Ams_DrawingActivity extends AppCompatActivity {
                         @Override
                         public void run() {
                             //et_response.setText(e.getMessage());
-                            Toast.makeText(Ams_DrawingActivity.this, "nah", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Ams_DrawingActivity.this, "On Failure", Toast.LENGTH_SHORT).show();
                         }
                     });
+                    Intent intent = new Intent(getApplicationContext(), Root_Results.class);
+                    //intent.putExtra("USER_ID", Ed_uid.getText().toString());
+                    startActivity(intent);
+
                 }
 
                 @Override
@@ -1326,13 +1416,17 @@ public class Ams_DrawingActivity extends AppCompatActivity {
                         public void run() {
 
 
-                            Toast.makeText(Ams_DrawingActivity.this, "response: " + response, Toast.LENGTH_LONG).show();
+                            Toast.makeText(Ams_DrawingActivity.this, "Response: " + response, Toast.LENGTH_LONG).show();
 
 
 
 
                         }
                     });
+                    Intent intent = new Intent(getApplicationContext(), Root_Results.class);
+                    //intent.putExtra("USER_ID", Ed_uid.getText().toString());
+                    startActivity(intent);
+
                 }
             });
 

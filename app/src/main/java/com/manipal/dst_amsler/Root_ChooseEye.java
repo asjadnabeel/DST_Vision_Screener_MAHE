@@ -1,16 +1,22 @@
 package com.manipal.dst_amsler;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.ThemedSpinnerAdapter;
+import android.support.v7.widget.ThemedSpinnerAdapter.Helper;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.ScrollView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -21,8 +27,8 @@ import android.widget.Toast;
 public class Root_ChooseEye extends AppCompatActivity {
 
 
-    CheckBox rb_left,rb_right,rb_both;
-    ImageView left_img,right_img,both_img;
+    CheckBox rb_left,rb_right;
+    ImageView left_img,right_img;
     Button proceedbtn;
     SharedPreferences sp;
 
@@ -33,11 +39,11 @@ public class Root_ChooseEye extends AppCompatActivity {
 
         rb_left =(CheckBox) findViewById(R.id.leftEyeCheck);
         rb_right =(CheckBox) findViewById(R.id.rightEyeCheck);
-        rb_both =(CheckBox) findViewById(R.id.bothEyeCheck);
+
 
         left_img = (ImageView)findViewById(R.id.leftEyeImage);
         right_img = (ImageView)findViewById(R.id.rightEyeImage);
-        both_img = (ImageView)findViewById(R.id.bothEyeImage);
+
         proceedbtn = (Button)findViewById(R.id.proceedButton);
 
 
@@ -50,7 +56,7 @@ public class Root_ChooseEye extends AppCompatActivity {
                     //PUT IN CODE HERE TO GET NEXT IMAGE
                     rb_left.setChecked(Boolean.TRUE);
                     rb_right.setChecked(Boolean.FALSE);
-                    rb_both.setChecked(Boolean.FALSE);
+
 
                 }
             }
@@ -64,20 +70,7 @@ public class Root_ChooseEye extends AppCompatActivity {
                     //PUT IN CODE HERE TO GET NEXT IMAGE
                     rb_left.setChecked(Boolean.FALSE);
                     rb_right.setChecked(Boolean.TRUE);
-                    rb_both.setChecked(Boolean.FALSE);
 
-                }
-            }
-        });
-
-        both_img.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (view == both_img) {
-                    //PUT IN CODE HERE TO GET NEXT IMAGE
-                    rb_left.setChecked(Boolean.FALSE);
-                    rb_right.setChecked(Boolean.FALSE);
-                    rb_both.setChecked(Boolean.TRUE);
 
                 }
             }
@@ -88,45 +81,11 @@ public class Root_ChooseEye extends AppCompatActivity {
 
 
 
-        left_img.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (view == left_img) {
-                    //PUT IN CODE HERE TO GET NEXT IMAGE
-                    rb_left.setChecked(Boolean.TRUE);
-                    rb_right.setChecked(Boolean.FALSE);
-                    rb_both.setChecked(Boolean.FALSE);
-
-                }
-            }
-        });
 
 
-        right_img.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (view == right_img) {
-                    //PUT IN CODE HERE TO GET NEXT IMAGE
-                    rb_left.setChecked(Boolean.FALSE);
-                    rb_right.setChecked(Boolean.TRUE);
-                    rb_both.setChecked(Boolean.FALSE);
 
-                }
-            }
-        });
 
-        both_img.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (view == both_img) {
-                    //PUT IN CODE HERE TO GET NEXT IMAGE
-                    rb_left.setChecked(Boolean.FALSE);
-                    rb_right.setChecked(Boolean.FALSE);
-                    rb_both.setChecked(Boolean.TRUE);
 
-                }
-            }
-        });
 
 
 
@@ -139,7 +98,7 @@ public class Root_ChooseEye extends AppCompatActivity {
                 {
                     rb_left.setChecked(Boolean.TRUE);
                     rb_right.setChecked(Boolean.FALSE);
-                    rb_both.setChecked(Boolean.FALSE);
+
                 }
 
             }
@@ -154,26 +113,13 @@ public class Root_ChooseEye extends AppCompatActivity {
                 {
                     rb_left.setChecked(Boolean.FALSE);
                     rb_right.setChecked(Boolean.TRUE);
-                    rb_both.setChecked(Boolean.FALSE);
+
                 }
 
             }
         });
 
-        rb_both.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
-        {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
-            {
-                if ( isChecked )
-                {
-                    rb_left.setChecked(Boolean.FALSE);
-                    rb_right.setChecked(Boolean.FALSE);
-                    rb_both.setChecked(Boolean.TRUE);
-                }
 
-            }
-        });
 
 
 
@@ -200,24 +146,20 @@ public class Root_ChooseEye extends AppCompatActivity {
 
     }
     private void proceedAlertDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         AlertDialog.Builder builder1 = builder.setTitle("Kindly verify ");
         String eye ="" ;
         String save_eye="LEFT";
         if(rb_left.isChecked() == true){
             eye = "Left Eye";
-            save_eye = "Left";
+            save_eye = "LEFT";
         }
         else if(rb_right.isChecked() == true)
         {
          eye = "Right Eye" ;
-         save_eye = "Right";
+         save_eye = "RIGHT";
         }
-        else if(rb_both.isChecked()==true)
-        {
-            eye = "Both Eyes";
-            save_eye = "Right";
-        }
+
 
 
         SharedPreferences.Editor Ed = sp.edit();
@@ -226,13 +168,13 @@ public class Root_ChooseEye extends AppCompatActivity {
         Ed.commit();
 
 
-        builder.setMessage("Do you really want to proceed with "+eye+"?" );
+        //builder.setMessage("Do you really want to proceed with "+eye+"?" );
         builder.setCancelable(false);
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 //Toast.makeText(getApplicationContext(), "You've choosen to delete all records", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(getApplicationContext(), Ams_StaticAmsler.class);
+                Intent intent = new Intent(getApplicationContext(), Root_FaceCalibration.class);
                 //Intent intent = new Intent(getApplicationContext(), Ams_StaticAmsler.class);
                 //intent.putExtra("USER_ID", Ed_uid.getText().toString());
                 startActivity(intent);
@@ -245,6 +187,15 @@ public class Root_ChooseEye extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Kindly Choose the eye to be tested", Toast.LENGTH_SHORT).show();
             }
         });
+
+        final ScrollView s_view = new ScrollView(getApplicationContext());
+        final TextView t_view = new TextView(getApplicationContext());
+        t_view.setText("Do you really want to proceed with "+eye+"?");
+        t_view.setTextColor(Color.BLACK);
+        t_view.setTextSize(30);
+        s_view.addView(t_view);
+        builder.setTitle("");
+        builder.setView(s_view);
 
         builder.show();
     }

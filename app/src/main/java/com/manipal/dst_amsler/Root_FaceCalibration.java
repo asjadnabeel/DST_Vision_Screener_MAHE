@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
@@ -55,10 +56,20 @@ public class Root_FaceCalibration extends Activity implements CameraBridgeViewBa
     private File mCascadeFile;
     private CascadeClassifier      mJavaDetector;
 
+    public SharedPreferences sp1;
+
+    public String sel_eye;
+    public boolean eye;
 
     //Distance Measure
     int d_horizontal,d_vertical;
-    public static int d_v_ratio, d_h_ration,d_correction=5428;
+    public static int d_v_ratio, d_h_ration,d_correction=5427;
+
+
+    //u_id = Integer.parseInt(sp1.getString("USER_ID", null));
+    //private String sel_eye ;
+    //private Boolean eye ;
+
 
 
 
@@ -82,6 +93,7 @@ public class Root_FaceCalibration extends Activity implements CameraBridgeViewBa
     Scalar RED = new Scalar(255, 0, 0);
     Scalar GREEN = new Scalar(0, 255, 0);
     double x_min,x_max,y_min,y_max;
+    double box_x_min, box_y_min;
 
 
 
@@ -221,6 +233,8 @@ public class Root_FaceCalibration extends Activity implements CameraBridgeViewBa
         skipBtn =(Button) findViewById(R.id.skipButton);
         //TxtFeedBack = (TextView) findViewById(R.id.textfdback);
 
+
+
         skipBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -278,6 +292,22 @@ public class Root_FaceCalibration extends Activity implements CameraBridgeViewBa
         mGray = new Mat();
         mRgba = new Mat();
         mHsv = new Mat();
+
+       sp1 = getApplicationContext().getSharedPreferences("Login", 0);
+       sel_eye = sp1.getString("EYE_SELECTED", "0");
+
+
+        if (sel_eye.equals("LEFT")) {
+            eye = true;
+            box_x_min = 475;  //475
+        }
+        else{
+            eye = false;
+            box_x_min =275;    //275
+        }
+
+
+
     }
 
     public void onCameraViewStopped() {
@@ -457,11 +487,29 @@ public class Root_FaceCalibration extends Activity implements CameraBridgeViewBa
 
         try {
             Rect minRect = Imgproc.boundingRect(contours.get(maxValIdx));
-            Imgproc.rectangle(mRgba,new Point(minRect.x,minRect.y),new Point(minRect.x+minRect.width,minRect.y+minRect.height),new Scalar(0,0,255),4);
+
+
+
             int w = mRgba.width();
             int h = mRgba.height();
+            int y_min=h/2 - 50;
+            int y_max = h/2 + 50 ;
 
-            Imgproc.rectangle(mRgba,new Point(200,h/2 - 80),new Point(360,h/2 + 80),new Scalar(0,255,0),5);
+
+
+
+            if((minRect.x >= box_x_min) && (minRect.y >= y_min) && ((minRect.x+minRect.width) <= (box_x_min+100)) && (minRect.y+minRect.height)<= y_max )
+                {Imgproc.rectangle(mRgba,new Point(minRect.x,minRect.y),new Point(minRect.x+minRect.width,minRect.y+minRect.height),new Scalar(0,255,0),4);
+                Imgproc.rectangle(mRgba,new Point(box_x_min ,y_min),new Point(box_x_min+100,y_max),new Scalar(0,255,0),5);}
+            else
+                {Imgproc.rectangle(mRgba,new Point(minRect.x,minRect.y),new Point(minRect.x+minRect.width,minRect.y+minRect.height),new Scalar(0,0,255),4);
+                Imgproc.rectangle(mRgba,new Point(box_x_min ,y_min),new Point(box_x_min+100,y_max),new Scalar(0,0,255),5);}
+
+
+
+
+
+
 
             d_horizontal = minRect.width;
             d_vertical = minRect.height;
@@ -473,27 +521,29 @@ public class Root_FaceCalibration extends Activity implements CameraBridgeViewBa
                 @Override
                 public void run() {
 
-                    int dist = 5427/Math.max(d_horizontal,d_vertical);
+                    int dist = (d_correction/Math.max(d_horizontal,d_vertical))/2;
                     if( dist<36){
                         proceedBtn.setEnabled(false);
-                        proceedBtn.setText("Slightly Move Back");
+                        proceedBtn.setText("Move Back");
                     } else if( dist>44){
                         proceedBtn.setEnabled(false);
-                        proceedBtn.setText("Slightly Come Closer");
+                        proceedBtn.setText("Come Closer");
 
                     }
                     else if((36 < dist) && (dist < 44)){
                         proceedBtn.setEnabled(true);
-                        proceedBtn.setText("PERFECT!! Click Here");
+                        proceedBtn.setText("PERFECT!! ");
                     }
 
-                    tvName.setText(" Distance = " + dist + "cm" );
+                    tvName.setText(" Distance:" + dist + "cm" );
                 }
             });
 
         }catch (IndexOutOfBoundsException e)
         {
             Imgproc.drawContours(mRgba, contours, maxValIdx, new Scalar(0,0,255), 5);
+           // tvName.setText("Wear Patch  ");
+
 
 
         }

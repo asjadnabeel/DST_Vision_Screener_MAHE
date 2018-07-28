@@ -1,7 +1,10 @@
 <resources>
     <string name="app_name">DSTVisionScreener</string>
-    <string name="welcome_text">Test Phase 1 Out of 3 - MRDA
-    \n\n You need to choose ODD target among five \n\n press START when you are ready </string>
+    <string name="welcome_text">Radial deformation acuity(RDA) test
+    \n\n You need to choose odd targets  \n\n press START when you are ready </string>
+
+    <string name="vo_welcome_text">Manipal Vanishing Optotype acuity test
+    \n\n You need to Touch Opening of targets  \n\n press START when you are ready </string>
     <string name="title_activity_stimuli_screen">Test Screen</string>
 
     <string name="Option_label_1">Total Number of Stimuli</string>
@@ -44,11 +47,13 @@
     <string name="title_activity_drawing_main">Draw Defects</string>
     <string name="title_activity_change_orientation">ChangeOrientation</string>
     <string name="title_activity_root__finished">Root_Finished</string>
-    <string name="skip_for_now">SKIP for now</string>
+    <string name="skip_for_now">Skip </string>
     <string name="proceed_to_test">Proceed To test</string>
-    <string name="choose_which_eyes_to_be_tested">Choose which Eyes to be tested</string>
-    <string name="only_test_my_left_eye">Only Test My Left Eye</string>
-    <string name="only_test_my_right_eye">Only Test My Right Eye</string>
+    <string name="choose_which_eye_to_be_tested">Choose which eye to be tested</string>
+    <string name="only_test_my_left_eye">Left Eye</string>
+    <string name="only_test_my_right_eye">Right Eye</string>
+    <string name="title_activity_vo_main_scr">VO_main_scr</string>
+    <string name="title_activity_root__results">Root_Results</string>
 
 
 </resources>

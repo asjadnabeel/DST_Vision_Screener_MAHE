@@ -15,14 +15,15 @@ import java.util.TimeZone;
  */
 
 public class trialData implements Serializable {
-    int trialNumber;
-    List<Integer> trueIndexes;
-    List<Integer> selectedIndexes;
-    List<Utilities.Point> accuracyList;
-    boolean isCorrect;
-    long elapsedTimeMs;
-    Date timeStamp;
-    String stimuliName;
+
+    int trialNumber ;
+    List<Integer> trueIndexes ;
+    List<Integer> selectedIndexes ;
+    List<Utilities.Point> accuracyList ;
+    boolean isCorrect ;
+    long elapsedTimeMs ;
+    Date timeStamp ;
+    String stimuliName ;
 
     public trialData(int trialNumber, List<Integer> trueIndex, List<Integer> selectedIndex, boolean isCorrect, int level, String stimName,
                      List<Utilities.Point> accuracyList, long timeMs) {
@@ -38,7 +39,9 @@ public class trialData implements Serializable {
     }
 
     public int getTrialNumber() {
+
         return trialNumber;
+
     }
 
     public int getLevel() {

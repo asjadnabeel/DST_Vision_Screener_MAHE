@@ -27,7 +27,7 @@ public class Ams_StaticAmsler extends AppCompatActivity {
                 // TODO Auto-generated method stub
                 if(status == TextToSpeech.SUCCESS){
                     int result=tts.setLanguage(Locale.US);
-                    tts.setSpeechRate(0.5f);
+                    tts.setSpeechRate(0.4f);
                     if(result==TextToSpeech.LANG_MISSING_DATA ||
                             result==TextToSpeech.LANG_NOT_SUPPORTED){
                         Log.e("error", "This Language is not supported");
