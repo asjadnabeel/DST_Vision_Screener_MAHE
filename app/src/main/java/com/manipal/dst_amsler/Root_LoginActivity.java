@@ -39,6 +39,7 @@ public class Root_LoginActivity extends AppCompatActivity {
 
     private Session session;
     SharedPreferences sp;
+    int flag=0;
 
 
 
@@ -86,7 +87,10 @@ public class Root_LoginActivity extends AppCompatActivity {
 
                         Toast.makeText(getApplicationContext(), "Please Wait ..Logging In",
                                 Toast.LENGTH_LONG).show();
-                        sendJson(uname, pswd);
+                        if (flag ==0) {
+                            flag = 1;
+                            sendJson(uname, pswd);
+                        }
 
                         /*Intent intent = new Intent(getApplicationContext(), Root_FaceCalibration.class);
                         //intent.putExtra("USER_ID", Ed_uid.getText().toString());
@@ -208,6 +212,7 @@ public class Root_LoginActivity extends AppCompatActivity {
 
                     if (responseCode == 400)//Wrong Credentials
                     {
+                        flag=0;
                         Toast.makeText(getApplicationContext(), "Wrong Username or Password" ,
                                 Toast.LENGTH_LONG).show();
 
@@ -271,7 +276,7 @@ public class Root_LoginActivity extends AppCompatActivity {
 
                 catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
-
+                    flag=0;
                     runOnUiThread(new Runnable() {
                         @SuppressLint("SetTextI18n")
                         @Override
@@ -287,6 +292,7 @@ public class Root_LoginActivity extends AppCompatActivity {
                 } catch (IOException e) {
                     e.printStackTrace();
 
+                    flag=0;
                     runOnUiThread(new Runnable() {
                         @SuppressLint("SetTextI18n")
                         @Override

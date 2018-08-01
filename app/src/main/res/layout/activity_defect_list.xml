@@ -11,11 +11,23 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:paddingLeft="10dp"
-        android:text="If you observed any of the following Put Tick mark to it "
+        android:text="If you observed any of the following, put tick mark to it "
+
         android:textColor="@android:color/holo_green_light"
-        android:textSize="20sp"
+        android:textSize="35sp"
         android:textStyle="bold" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="horizontal" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical" >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -25,8 +37,8 @@
 
         <ImageView
             android:id="@+id/defect1Image"
-            android:layout_width="62dp"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="39.49"
             android:padding="10dp"
@@ -39,9 +51,9 @@
             android:layout_gravity="center"
             android:layout_weight="55"
             android:paddingLeft="10dp"
-            android:text="Blurry"
+            android:text="Blurry       "
             android:textColor="#FFFFFF"
-            android:textSize="20sp"
+            android:textSize="25sp"
             android:textStyle="bold" />
 
         <android.support.v7.widget.AppCompatCheckBox
@@ -60,8 +72,8 @@
 
         <ImageView
             android:id="@+id/defect2Image"
-            android:layout_width="97dp"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="39.77"
             android:padding="10dp"
@@ -74,9 +86,9 @@
             android:layout_gravity="center"
             android:layout_weight="55"
             android:paddingLeft="10dp"
-            android:text="Wavy/Curvy"
+            android:text="Wavy/Curvy "
             android:textColor="#FFFFFF"
-            android:textSize="20sp"
+            android:textSize="25sp"
             android:textStyle="bold" />
 
         <android.support.v7.widget.AppCompatCheckBox
@@ -87,6 +99,18 @@
             android:layout_weight="5" />
     </LinearLayout>
 
+    </LinearLayout>
+
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical" >
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -95,8 +119,8 @@
 
         <ImageView
             android:id="@+id/defect3Image"
-            android:layout_width="116dp"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="39.77"
             android:padding="10dp"
@@ -111,7 +135,7 @@
             android:paddingLeft="10dp"
             android:text="Missing/Faded"
             android:textColor="#FFFFFF"
-            android:textSize="20sp"
+            android:textSize="25sp"
             android:textStyle="bold" />
 
         <android.support.v7.widget.AppCompatCheckBox
@@ -130,8 +154,8 @@
 
         <ImageView
             android:id="@+id/defect4Image"
-            android:layout_width="92dp"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="39.77"
             android:padding="10dp"
@@ -144,9 +168,9 @@
             android:layout_gravity="center"
             android:layout_weight="55"
             android:paddingLeft="10dp"
-            android:text="Dark Spots"
+            android:text="Dark Spots       "
             android:textColor="#FFFFFF"
-            android:textSize="20sp"
+            android:textSize="25sp"
             android:textStyle="bold" />
 
         <android.support.v7.widget.AppCompatCheckBox
@@ -158,6 +182,10 @@
 
     </LinearLayout>
 
+    </LinearLayout>
+    </LinearLayout>
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -168,28 +196,21 @@
             android:layout_gravity="left"
 
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="100sp"
             android:layout_weight="1"
             android:gravity="center"
-
+            android:textSize="40sp"
             android:text="Check Again" />
 
-        <Button
-            android:id="@+id/safeButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="My Vision is OK" />
 
         <Button
             android:id="@+id/defectDoneButton"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="100sp"
             android:layout_gravity="right"
             android:layout_weight="1"
             android:gravity="center"
+            android:textSize="40sp"
             android:text="  Proceed  " />
 
 

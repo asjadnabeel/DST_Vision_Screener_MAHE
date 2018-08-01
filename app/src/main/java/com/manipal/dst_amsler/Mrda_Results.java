@@ -50,16 +50,27 @@ public class Mrda_Results extends AppCompatActivity {
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
 
+        String FinalScore = "0";
+        String FinalTime = "0:0";
+
+        if(bundle != null) {
+            FinalScore = bundle.getString("MRDA_Final"); // retrieve the data using keyName
+            FinalTime = bundle.getString("MRDA_Time");
+        }
+
+
+
         sp =  getApplicationContext().getSharedPreferences("Login", 0);
         SharedPreferences.Editor Ed = sp.edit();
 
-        Ed.putString("MRDA_RESULT", "0");
+        Ed.putString("MRDA_RESULT", FinalScore);
+        Ed.putString("MRDA_TIME",FinalTime);
 
         Ed.commit();
 
 
 
-
+/*
         btn_amsler = (Button) findViewById(R.id.btn_amslerTrig);
         btn_amsler.setOnClickListener( new View.OnClickListener() {
 
@@ -106,7 +117,7 @@ public class Mrda_Results extends AppCompatActivity {
 
 
 
-       /* builder = new Dialog(this);
+       *//* builder = new Dialog(this);
         builder.requestWindowFeature(Window.FEATURE_NO_TITLE);
         builder.getWindow().setBackgroundDrawable(
                 new ColorDrawable(android.graphics.Color.TRANSPARENT));
@@ -122,8 +133,8 @@ public class Mrda_Results extends AppCompatActivity {
         builder.addContentView(imageView, new RelativeLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT));
-        builder.show();*/
-
+        builder.show();*//*
+       */
         Intent inten = new Intent(getApplicationContext(), VO_main_scr.class);
         //intent.putExtra("USER_ID", Ed_uid.getText().toString());
         startActivity(inten);

@@ -30,6 +30,9 @@ import android.widget.Toast;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
+
+import Utilities.StopWatch;
 
 public class VO_StimuliCanvas extends AppCompatActivity
 {
@@ -79,6 +82,11 @@ public class VO_StimuliCanvas extends AppCompatActivity
     SharedPreferences sp;
 
 
+    String v_totalTime;
+    long v_startTime;
+    StopWatch roundStopwatch = new StopWatch();
+    //roundStopwatch.start();
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -94,6 +102,11 @@ public class VO_StimuliCanvas extends AppCompatActivity
         DisplayMetrics dm = getResources().getDisplayMetrics();
         screenHeight = dm.heightPixels;
         screenWidth = dm.widthPixels;
+
+        //Start time
+        v_startTime = new Date().getTime();
+        v_totalTime = "";
+        roundStopwatch.start();
 
         //layout margins calculations
         vertical_margin1= (screenHeight - img_height)/2;
@@ -568,6 +581,15 @@ public class VO_StimuliCanvas extends AppCompatActivity
         img4.setEnabled(true);
         img5.setEnabled(true);
 
+
+
+        long elapsedTimeInMs = new Date().getTime() - v_startTime;
+        long seconds =  (elapsedTimeInMs/1000) % 60;
+        long minutes = (elapsedTimeInMs/1000-seconds)/60;
+
+        v_totalTime +="L"+curlevel+" T "+minutes+":"+seconds+"#";
+
+
         //Shuffle the contents of rotateArr array
         Collections.shuffle(Arrays.asList(rotateArr));
 
@@ -625,6 +647,7 @@ public class VO_StimuliCanvas extends AppCompatActivity
 
         SharedPreferences.Editor Ed = sp.edit();
         Ed.putString("VO_RESULT", String.valueOf(result));
+        Ed.putString("VO_TIME",v_totalTime);
         Ed.commit();
 
         // Exit point

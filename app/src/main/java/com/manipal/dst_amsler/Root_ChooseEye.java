@@ -170,6 +170,8 @@ public class Root_ChooseEye extends AppCompatActivity {
 
         //builder.setMessage("Do you really want to proceed with "+eye+"?" );
         builder.setCancelable(false);
+
+
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -191,11 +193,24 @@ public class Root_ChooseEye extends AppCompatActivity {
         final ScrollView s_view = new ScrollView(getApplicationContext());
         final TextView t_view = new TextView(getApplicationContext());
         t_view.setText("Do you really want to proceed with "+eye+"?");
+        t_view.setBackgroundColor(Color.WHITE);
         t_view.setTextColor(Color.BLACK);
         t_view.setTextSize(30);
         s_view.addView(t_view);
+
+
+
         builder.setTitle("");
         builder.setView(s_view);
+
+
+        /*AlertDialog alert= builder.create();
+        Button btnPositive = alert.getButton(Dialog.BUTTON_POSITIVE);
+        btnPositive.setTextSize(20);
+
+        Button btnNegative = alert.getButton(Dialog.BUTTON_NEGATIVE);
+        btnNegative.setTextSize(20);*/
+
 
         builder.show();
     }

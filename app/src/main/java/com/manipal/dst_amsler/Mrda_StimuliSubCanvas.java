@@ -3,6 +3,7 @@ package com.manipal.dst_amsler;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -52,6 +53,9 @@ public class Mrda_StimuliSubCanvas extends View implements View.OnTouchListener 
     Bitmap bmpBlankStimuli;
 
     Button btnNext;
+    String totalTime;
+
+
 
 /*    LinearLayout feedbackLayout;
     TextView lblInstructions;
@@ -74,6 +78,13 @@ public class Mrda_StimuliSubCanvas extends View implements View.OnTouchListener 
     float yCoordBtnContinue;
 
     WeightedUpDown levelManager;
+//level manager
+    int error_level_count=2,rem_level;
+    List<Integer> error_levels;
+    int chance = 2;
+    boolean final_level =false;
+    int FinalLevel =0;
+
 
     //User history
     int runIndex = 0;
@@ -84,7 +95,7 @@ public class Mrda_StimuliSubCanvas extends View implements View.OnTouchListener 
     //Trial data
     int currentTrial = 0;
     int level = 0;
-    int numOfTrials = 10;
+    int numOfTrials = 15;
 
     //These should reflect user options
     int intNumOfStimuli = 5;
@@ -103,6 +114,7 @@ public class Mrda_StimuliSubCanvas extends View implements View.OnTouchListener 
     StopWatch roundStopwatch = new StopWatch();
 
 
+
     public Mrda_StimuliSubCanvas(Context context){
         super(context);
         DisplayMetrics displaymetrics = new DisplayMetrics();
@@ -112,6 +124,7 @@ public class Mrda_StimuliSubCanvas extends View implements View.OnTouchListener 
         screenHeight = displaymetrics.heightPixels;
         screenWidth = displaymetrics.widthPixels;
 
+
         levelManager = new WeightedUpDown();
         percentages = new double[numOfTrials];
 
@@ -119,6 +132,7 @@ public class Mrda_StimuliSubCanvas extends View implements View.OnTouchListener 
         initialiseStimuliNamesMap();
 
         this.setOnTouchListener(this);
+        totalTime = "";
 
         /*initialise btnContinue - set bmp image and coordinates on the screen*/
         btnContinue = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.btn_next4), 250,50, false);
@@ -139,6 +153,9 @@ public class Mrda_StimuliSubCanvas extends View implements View.OnTouchListener 
         lblFeedback = "";
 
         btnNext = new Button(getContext());
+
+
+
 
         startTime = new Date().getTime();
         createLevel();
@@ -335,14 +352,16 @@ public class Mrda_StimuliSubCanvas extends View implements View.OnTouchListener 
     }
 
     public void onBtnContinueClick(){
-        if(checkSelectionCount() == true) {
+        //if(checkSelectionCount() == true) {
+
+
             roundStopwatch.stop();
 
             long elapsedTime = roundStopwatch.getElapsedTime();
 
             List<Integer> trueIndex = getTrueIndex();
             List<Integer> selectedIndex = getSelectedIndex();
-            List<Utilities.Point> accuracy = getSelectedAccuracy();
+            //List<Utilities.Point> accuracy = getSelectedAccuracy();
 
             Boolean boolUserCorrect = false;
             if(selectedIndex.equals(trueIndex))
@@ -354,68 +373,170 @@ public class Mrda_StimuliSubCanvas extends View implements View.OnTouchListener 
                 Log.w("MRDA Log", "User was correct! Score: " + score);
             }
 
-            addToHistory(currentTrial, trueIndex, selectedIndex, boolUserCorrect, accuracy, elapsedTime);
+            //addToHistory(currentTrial, trueIndex, selectedIndex, boolUserCorrect, accuracy, elapsedTime);
 
-            if(currentTrial < numOfTrials - 1) {
+            //if(currentTrial < 14) {
+              //  Toast.makeText(getContext().getApplicationContext(), "Level:"+level, Toast.LENGTH_SHORT).show();
 
 
 
                 lblFeedback = "";
 
                 //level select
-                level = levelManager.calculateNextLevel(boolUserCorrect, level);
 
-                if(level < 0)
-                {
-                    level = 0;
+                long elapsedTimeInMs = new Date().getTime() - startTime;
+                long seconds =  (elapsedTimeInMs/1000) % 60;
+                long minutes = (elapsedTimeInMs/1000-seconds)/60;
+
+                totalTime +="L"+level+" T "+minutes+":"+seconds+" ";
+
+                level = calculateNextLevel(boolUserCorrect, level);
+
+                //Toast.makeText(getContext().getApplicationContext(), "Level:"+level+"T/F:"+boolUserCorrect, Toast.LENGTH_SHORT).show();
+
+                if(final_level == false) { //finished
+
+                    if (level < 0) {
+                        level = 0;
+                    } else if (level > stimuliMap.size() - 1) {
+                        level = stimuliMap.size() - 1;
+                    }
+
+                    currentTrial++;
+
+                    lblLevel = stimuliNamesMap.get(level);
+
+                    //Unwanted
+                    lblLevel = "";
+
+                    createLevel();
+
                 }
-                else if(level > stimuliMap.size() - 1)
-                {
-                    level = stimuliMap.size() -1;
-                }
+                else if(final_level == true){
 
-                currentTrial++;
-
-                lblLevel = stimuliNamesMap.get(level);
-
-                //Unwanted
-                lblLevel = "";
-
-                createLevel();
-            }
-            else{
-                //End game
-                Log.w("MRDA Log", "End Game triggered!");
+                    //End game
+                    Log.w("MRDA Log", "End Game triggered!");
 
             /*
                 TO-DO:
                 End-game level log
              */
 
-                //Close game
-                long elapsedTimeInMs = new Date().getTime() - startTime;
-                long seconds =  (elapsedTimeInMs/1000) % 60;
-                long minutes = (elapsedTimeInMs/1000-seconds)/60;
+                    //Close game
 
-                String totalTime = minutes + ":" + seconds;
 
-                Bundle args = new Bundle();
-                args.putSerializable("userHistory",(HashMap<Integer, trialData>)userHistory);
-                args.putString("totalTime", totalTime);
+                    Toast.makeText(getContext().getApplicationContext(), "Final Level"+FinalLevel, Toast.LENGTH_LONG).show();
 
-                Intent intent = new Intent(getContext(), Mrda_Results.class);
-                intent.putExtras(args);
-                getContext().startActivity(intent);
+                    /*long elapsedTimeInMs = new Date().getTime() - startTime;
+                    long seconds =  (elapsedTimeInMs/1000) % 60;
+                    long minutes = (elapsedTimeInMs/1000-seconds)/60;
 
-                ((Activity) getContext()).finish();
-            }
-        }
+                    String totalTime = minutes + ":" + seconds;*/
+
+                    Bundle args = new Bundle();
+                    //args.putSerializable("userHistory",(HashMap<Integer, trialData>)userHistory);
+                    args.putString("MRDA_Final", ""+FinalLevel);
+                    args.putString("MRDA_Time", ""+totalTime);
+
+
+                    Intent intent = new Intent(getContext(), Mrda_Results.class);
+                    intent.putExtras(args);
+                    //intent.putExtra("MRDA_Final", FinalLevel);
+                    //intent.putExtra("MRDA_Time", totalTime);
+
+
+                    /////////
+                   /*
+                   SharedPreferences sp;
+                    sp =  getApplicationContext().getSharedPreferences("Login", 0);
+
+                    SharedPreferences.Editor Ed = sp.edit();
+
+                    Ed.putString("MRDA_RESULT", FinalScore);
+                    Ed.putString("MRDA_TIME",FinalTime);
+
+                    Ed.commit();
+                    */
+                    ///////////
+
+
+
+                    getContext().startActivity(intent);
+
+                    ((Activity) getContext()).finish();
+
+                }
+
+
+            //}
+
+
+
+
+
+        /* }
         else {
             lblFeedback = "Only select " + intNumOfRealStimuli + " stimuli";
             Toast.makeText(getContext().getApplicationContext(), "Hello", Toast.LENGTH_SHORT);
             Log.w("MRDA Log", "Please select " + intNumOfRealStimuli + " stimuli");
-        }
+        }*/
     }
+
+
+    public int calculateNextLevel(Boolean correct, int level) {
+        //final double threshold = 0.75;
+
+        //
+
+        if (level == 14) {
+            final_level = true;
+        }
+        else if (correct == true) {
+            final_level = false;
+
+            FinalLevel = level;
+
+            level = level + 1;
+            error_level_count = 2;
+        }
+        else if(correct == false && error_level_count > 0) {
+
+            final_level =false;
+
+            level = level + 1;
+            error_level_count =error_level_count - 1 ;
+
+
+        }
+        else if(correct == false && error_level_count == 0 && chance==2 ) {
+            final_level =false;
+
+            level = level-2;
+            chance = 1;
+            error_level_count = 2;
+        }
+        else if(correct == false && error_level_count == 0 && chance==1 ) // Termination condition
+        {
+            final_level = true;
+
+            if(level>3){
+            FinalLevel = level - 3;}
+            else
+            {FinalLevel=0;}
+
+            //level = level - 2;
+            //error_level_count = 2;
+        }
+        else
+        {
+
+        }
+
+
+        return level;
+    }
+
+
 
     private void addToHistory(int currentTrial, List<Integer> trueIndex, List<Integer> selectedIndex, boolean isCorrect,
                               List<Utilities.Point> accuracyList, long timeMs)

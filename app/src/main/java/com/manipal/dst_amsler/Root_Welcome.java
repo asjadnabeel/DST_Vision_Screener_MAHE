@@ -37,8 +37,12 @@ public class Root_Welcome extends AppCompatActivity {
 
         new Handler().postDelayed(new Runnable() {
             public void run() {
+        try {
+            mp.stop();
+        }catch (IllegalStateException e)
+        {
 
-                mp.stop();
+        }
                 Intent intent = new Intent();
                 intent.setClass(getApplicationContext(),  Root_LoginActivity.class); //Loginz Activity
 

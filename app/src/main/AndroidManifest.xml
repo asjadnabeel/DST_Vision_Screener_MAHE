@@ -62,7 +62,7 @@
             android:name=".Root_Welcome"
             android:label="DigitalAmsler"
             android:screenOrientation="landscape"
-            android:theme="@style/Theme.AppCompat.Light.DarkActionBar">
+            android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -73,28 +73,28 @@
             android:name=".Ams_Instruction"
             android:label="@string/title_activity_instr"
             android:configChanges="orientation|screenSize"
-            android:screenOrientation="portrait"
+            android:screenOrientation="landscape"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
             android:name=".Root_ChooseEye"
             android:label="@string/title_activity_choose_eye"
             android:screenOrientation="landscape"
-            android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
             android:name=".Ams_StaticAmsler"
             android:label="@string/title_activity_amsler_static"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
             android:name=".Ams_DefectList"
             android:label="@string/title_activity_defect_list"
-            android:screenOrientation="portrait"
+            android:screenOrientation="landscape"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
             android:name=".Ams_DrawingActivity"
             android:label="@string/title_activity_drawing_main"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
             android:name=".Root_FaceCalibration"
             android:screenOrientation="landscape" />
@@ -111,9 +111,9 @@
             android:screenOrientation="landscape" />
         <activity
             android:name=".Root_Results"
-            android:screenOrientation="portrait"
+            android:screenOrientation="landscape"
             android:label="@string/title_activity_root__results"
-            android:theme="@style/Theme.AppCompat.Light.DarkActionBar" ></activity>
+            android:theme="@style/Theme.AppCompat.NoActionBar" ></activity>
     </application>
 
 </manifest>

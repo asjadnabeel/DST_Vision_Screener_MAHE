@@ -299,7 +299,7 @@ public class Root_FaceCalibration extends Activity implements CameraBridgeViewBa
 
         if (sel_eye.equals("LEFT")) {
             eye = true;
-            box_x_min = 475;  //475
+            box_x_min = 550;  //475
         }
         else{
             eye = false;

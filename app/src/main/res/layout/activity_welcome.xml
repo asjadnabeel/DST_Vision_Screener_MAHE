@@ -40,7 +40,7 @@
                 android:layout_height="wrap_content"
 
                 android:layout_gravity="center"
-                android:text="Devoloped By"
+                android:text="Developed By"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                 android:textColor="@android:color/holo_blue_bright"
                 android:textSize="26sp"
@@ -117,7 +117,7 @@
                     android:gravity="center"
 
                     android:layout_gravity="center"
-                    android:text="Technically Supported by Specvin Pvt Ltd,             "
+                    android:text="Technically Supported by Specvin Pvt Ltd             "
                     android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                     android:textColor="@android:color/holo_green_light"
                     android:textSize="24sp"

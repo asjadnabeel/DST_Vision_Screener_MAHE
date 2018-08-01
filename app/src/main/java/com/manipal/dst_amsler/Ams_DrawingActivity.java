@@ -51,6 +51,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -61,6 +62,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+import static android.view.Gravity.CENTER_HORIZONTAL;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
@@ -88,9 +90,15 @@ public class Ams_DrawingActivity extends AppCompatActivity {
     String im_name;
     int u_id,x_area_old,y_area_old;
     int ams_score,scoreSum;
-    String u_username,u_password,token,patient_id,mrda_result,vo_result;
+    String u_username,u_password,token,patient_id,mrda_result,vo_result,mrda_time,vo_time;
 
     SharedPreferences sp1;
+
+
+    //time
+    long startTime;
+    String ams_totalTime;
+
 
 
     private static final int COLOR_MENU_ID = Menu.FIRST;
@@ -101,6 +109,7 @@ public class Ams_DrawingActivity extends AppCompatActivity {
 
 
     Button submitButton ;
+    ImageView submitImage;
     Button resetButton ;
     Button AgainButton ;
     Button ExitButton ;
@@ -197,6 +206,9 @@ public class Ams_DrawingActivity extends AppCompatActivity {
 
 
         submitButton = new Button(this);
+        submitImage = new ImageView(this);
+        submitImage.setImageResource(R.drawable.ok);
+
         resetButton = new Button(this);
         AgainButton = new Button(this);
         ExitButton = new Button(this);
@@ -219,26 +231,27 @@ public class Ams_DrawingActivity extends AppCompatActivity {
         submitButton.setTextColor(Color.BLACK);
         submitButton.setTypeface(null, Typeface.BOLD);
         submitButton.setTextSize(16);
-        submitButton.setGravity(Gravity.CENTER_HORIZONTAL);
+        submitButton.setGravity(CENTER_HORIZONTAL);
+        //submitImage.setForegroundGravity(CENTER_HORIZONTAL);
 
         resetButton.setText("RESET");
         resetButton.setTextColor(Color.BLACK);
         resetButton.setTypeface(null, Typeface.BOLD);
         resetButton.setTextSize(16);
-        resetButton.setGravity(Gravity.CENTER_HORIZONTAL);
+        resetButton.setGravity(CENTER_HORIZONTAL);
 
 
         AgainButton.setText("RETRY");
         AgainButton.setTextColor(Color.BLACK);
         AgainButton.setTypeface(null, Typeface.BOLD);
         AgainButton.setTextSize(16);
-        AgainButton.setGravity(Gravity.CENTER_HORIZONTAL);
+        AgainButton.setGravity(CENTER_HORIZONTAL);
 
         ExitButton.setText("EXIT");
         ExitButton.setTextColor(Color.BLACK);
         ExitButton.setTypeface(null, Typeface.BOLD);
         ExitButton.setTextSize(16);
-        ExitButton.setGravity(Gravity.CENTER_HORIZONTAL);
+        ExitButton.setGravity(CENTER_HORIZONTAL);
 
 
 
@@ -246,7 +259,7 @@ public class Ams_DrawingActivity extends AppCompatActivity {
         zoneInfo.setTextColor(Color.GREEN);
         zoneInfo.setTextSize(16);
         zoneInfo.setTypeface(null, Typeface.BOLD);
-        zoneInfo.setGravity(Gravity.CENTER_HORIZONTAL);
+        zoneInfo.setGravity(CENTER_HORIZONTAL);
 
 
 
@@ -297,7 +310,10 @@ public class Ams_DrawingActivity extends AppCompatActivity {
         submitButton.setGravity(Gravity.CENTER);
         submitButton.setTextSize(20);
         submitButton.setHeight(20);
-        layout.addView(submitButton);
+
+
+        //layout.addView(submitButton);
+        layout.addView(submitImage);
 
         resetButton.setLayoutParams(params);
         resetButton.setGravity(Gravity.CENTER);
@@ -352,6 +368,8 @@ public class Ams_DrawingActivity extends AppCompatActivity {
         def3_score = 0;
         def4_score = 0;
 
+
+
         if(defect1 == 1 )
             def1_status = true;
         if(defect2 == 2)
@@ -361,6 +379,8 @@ public class Ams_DrawingActivity extends AppCompatActivity {
         if (defect4 == 4)
             def4_status=true;
 
+
+        startTime = new Date().getTime();
 
 
         if(def1_status == true)
@@ -487,13 +507,7 @@ public class Ams_DrawingActivity extends AppCompatActivity {
         });
 
 
-
-
-
-
-
-        submitButton.setOnClickListener(new View.OnClickListener() {
-
+        submitImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -527,6 +541,8 @@ public class Ams_DrawingActivity extends AppCompatActivity {
 
 
 
+
+
                 } else if (def2_status == true) {
                     showDefectPopup(R.drawable.wavinessreq);
                     mPaint.setColor(Color.GREEN);
@@ -534,6 +550,9 @@ public class Ams_DrawingActivity extends AppCompatActivity {
                     ams_score = ams_score + scoreSum;
                     scoreSum=0;
                     defect = defect2;
+
+
+
 
                 } else if (def3_status == true) {
                     showDefectPopup(R.drawable.fadedreq);
@@ -554,7 +573,17 @@ public class Ams_DrawingActivity extends AppCompatActivity {
 
                 } else {
 
+
+                    submitImage.setImageResource(R.drawable.wait);
+
+
                     ams_score = ams_score + scoreSum;
+
+                    long elapsedTimeInMs = new Date().getTime() - startTime;
+                    long seconds =  (elapsedTimeInMs/1000) % 60;
+                    long minutes = (elapsedTimeInMs/1000-seconds)/60;
+
+                    ams_totalTime ="AmslerTest  "+"T "+minutes+":"+seconds+" ";
 
 
 
@@ -563,7 +592,7 @@ public class Ams_DrawingActivity extends AppCompatActivity {
                     SharedPreferences.Editor Ed = sp1.edit();
 
                     Ed.putString("AMS_RESULT", Integer.toString(ams_score));
-
+                    Ed.putString("AMS_TIME", ams_totalTime);
                     Ed.commit();
 
                     // Add all the scores
@@ -604,7 +633,7 @@ public class Ams_DrawingActivity extends AppCompatActivity {
                     //Rotate Image 180 Degree
 
                     Matrix matrix = new Matrix();
-                    matrix.postRotate(180);
+                    matrix.postRotate(90);
                     bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix,
                             true);
 
@@ -647,7 +676,7 @@ public class Ams_DrawingActivity extends AppCompatActivity {
                     }
 
                     //new SendPostMultiRequest().execute();
-                   // sendToAPI();
+                    // sendToAPI();
                     //sendToOldAPI();
 
 
@@ -667,10 +696,22 @@ public class Ams_DrawingActivity extends AppCompatActivity {
 
 
             }
-
-
-
         });
+
+
+
+
+
+
+
+      /*  submitButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+
+
+
+
+        });*/
 
 
     }
@@ -680,7 +721,8 @@ public class Ams_DrawingActivity extends AppCompatActivity {
     public void showDefectPopup(int resID) {
 
         AlertDialog.Builder dialog = new AlertDialog.Builder(Ams_DrawingActivity.this);
-        dialog.setTitle("Kindly Read carefully  and Proceed");
+
+        dialog.setTitle("");
         ImageView showImage = new ImageView(Ams_DrawingActivity.this);
         showImage.setImageResource(resID);
 
@@ -691,17 +733,19 @@ public class Ams_DrawingActivity extends AppCompatActivity {
 
 
 
-        dialog.setNegativeButton("OK", new DialogInterface.OnClickListener()
-        {
-            public void onClick(DialogInterface arg0, int arg1)
-            {
 
+        final AlertDialog alert;
+        alert = dialog.create();
+        showImage.setOnClickListener(new View.OnClickListener() {
 
+            public void onClick(View v) {
+                // I want the dialog to close at this point
+                alert.dismiss();
             }
         });
 
-
-        dialog.show();
+        //alert = dialog.create();
+        alert.show();
 
        }
 
@@ -758,6 +802,7 @@ public class Ams_DrawingActivity extends AppCompatActivity {
 
     public void hideButtons(){
         submitButton.setVisibility(GONE);
+        //submitImage.setVisibility(GONE);
         resetButton.setVisibility(GONE);
         AgainButton.setVisibility(GONE);
         ExitButton.setVisibility(GONE);
@@ -1013,7 +1058,7 @@ public class Ams_DrawingActivity extends AppCompatActivity {
             mCanvas.drawBitmap(originalBitmap, 0, 0, mBitmapPaint);
             scoreList.clear();
             score = 0;
-            zoneInfo.setText("Tests Successfully Done");
+            //zoneInfo.setText("Tests Successfully Done");
             invalidate();
         }
 
@@ -1337,14 +1382,22 @@ public class Ams_DrawingActivity extends AppCompatActivity {
         token = sp1.getString("TOKEN", null);
         patient_id = sp1.getString("PATIENT_ID", null);
 
-        mrda_result = sp1.getString("MRDA_RESULT", "20");
+        mrda_result = sp1.getString("MRDA_RESULT", "0");
+        mrda_time = sp1.getString("MRDA_TIME", "MrdaTimeError");
 
-         vo_result = sp1.getString("VO_RESULT", "0");
 
-        String ams_string = "Amsler \nBlurry:"+Integer.toString(def1_score)+"\nWavy"+Integer.toString(def2_score)+"\nFaded"+Integer.toString(def3_score)+"\nDarkSpot"+Integer.toString(def4_score);
-        Toast.makeText(Ams_DrawingActivity.this, "Amsler Score"+ams_string, Toast.LENGTH_LONG).show();
+        vo_result = sp1.getString("VO_RESULT", "0");
+        vo_time = sp1.getString("VO_TIME","VOTimeError");
 
-        String eye_selected = sp1.getString("EYE_SELECTED", "Right");
+//        vo_result = sp1.getString("VO_RESULT", "0");
+
+
+
+        String ams_string = "Amsler Test \nBlurry:"+Integer.toString(def1_score)+"\nWavy:"+Integer.toString(def2_score)+"\nFaded:"+Integer.toString(def3_score)+"\nDarkspot:"+Integer.toString(def4_score)+"\nTotal Time "+ams_totalTime+"\n\nMRDA Test \nTotal Time "+mrda_time.toString()+"\n\nVO Test \nTotal Time "+vo_time;
+
+        //Toast.makeText(Ams_DrawingActivity.this, "Amsler Score"+ams_string, Toast.LENGTH_LONG).show();
+
+        String eye_selected = sp1.getString("EYE_SELECTED", "RIGHT");
 
         if (token.equals(null)) {
             Toast.makeText(this.getBaseContext(), "Kindly  Login Again ", Toast.LENGTH_LONG).show();
@@ -1381,6 +1434,7 @@ public class Ams_DrawingActivity extends AppCompatActivity {
                     .addFormDataPart("date", date)
                     .addFormDataPart("amsler_score",Integer.toString(ams_score) )
                     .addFormDataPart("MRDA_Score",String.valueOf(mrda_result) )
+                    .addFormDataPart("select_eye",eye_selected.toString() )
                     .addFormDataPart("vanishing_optotype_score", String.valueOf(vo_result))
                     .addFormDataPart("remarks",ams_string)
                     .addFormDataPart("amsler_image", im_name, RequestBody.create(MEDIA_TYPE_PNG, imagelink))
@@ -1392,17 +1446,29 @@ public class Ams_DrawingActivity extends AppCompatActivity {
 
             Response response = null;
 
-            OkHttpClient okHttpClient = new OkHttpClient();
+            //OkHttpClient okHttpClient = new OkHttpClient();
+
+
+            OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                    .connectTimeout(10, TimeUnit.SECONDS)
+                    .writeTimeout(10, TimeUnit.SECONDS)
+                    .readTimeout(10, TimeUnit.SECONDS)
+                    .build();
+
             okHttpClient.newCall(request).enqueue(new Callback() {
                 @Override
                 public void onFailure(Call call, final IOException e) {
+
+
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             //et_response.setText(e.getMessage());
-                            Toast.makeText(Ams_DrawingActivity.this, "On Failure", Toast.LENGTH_SHORT).show();
+
+                            //Toast.makeText(Ams_DrawingActivity.this, "On Failure"+e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     });
+
                     Intent intent = new Intent(getApplicationContext(), Root_Results.class);
                     //intent.putExtra("USER_ID", Ed_uid.getText().toString());
                     startActivity(intent);
@@ -1416,16 +1482,24 @@ public class Ams_DrawingActivity extends AppCompatActivity {
                         public void run() {
 
 
-                            Toast.makeText(Ams_DrawingActivity.this, "Response: " + response, Toast.LENGTH_LONG).show();
 
 
+                            int responseCode = response.code();
+                            if(responseCode == 500 || responseCode ==201)
+                            {
+                                Toast.makeText(Ams_DrawingActivity.this, "Successfully ", Toast.LENGTH_LONG).show();
+                            }else {
+                                Toast.makeText(Ams_DrawingActivity.this, "Error occured.. Kindly test again", Toast.LENGTH_LONG).show();
+                            }
 
 
                         }
                     });
+
                     Intent intent = new Intent(getApplicationContext(), Root_Results.class);
                     //intent.putExtra("USER_ID", Ed_uid.getText().toString());
                     startActivity(intent);
+
 
                 }
             });
